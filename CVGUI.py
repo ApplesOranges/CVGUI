@@ -12,6 +12,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.param1 = None
+        self.param2 = None
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1600, 1200)
@@ -31,6 +35,10 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(130, 520, 201, 22))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
@@ -73,8 +81,12 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(0, _translate("MainWindow", "Escala de Grises"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Umbralización"))
         self.comboBox.setItemText(2, _translate("MainWindow", "Suavizado"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "Apertura"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "Cerradura"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "LBP"))
+        self.comboBox.setItemText(4, _translate("MainWindow", "LTP"))
+        self.comboBox.setItemText(5, _translate("MainWindow", "Umbralización por media regional"))
+        self.comboBox.setItemText(6, _translate("MainWindow", "Umbralización otsu"))
+        self.comboBox.setItemText(7, _translate("MainWindow", "Sobel"))
+        self.comboBox.setItemText(8, _translate("MainWindow", "Laplacian"))
         self.pushButton_2.setText(_translate("MainWindow", "SET"))
         self.pushButton_3.setText(_translate("MainWindow", "OPEN"))
         self.pushButton_4.setText(_translate("MainWindow", "SAVE"))

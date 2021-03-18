@@ -1,3 +1,5 @@
+#CVGUI>pyuic5 CVGUI.ui -o CVGUI.py
+
 import cv2
 import numpy as np
 from PyQt5.QtGui import QPixmap
@@ -6,6 +8,13 @@ import CVGUI as gui
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+def fitImage(im):
+    x, y, _ = im.shape
+    print(x,y)
+    while(x>421 or y>391):
+        im = cv2.resize(im, (x/2, y/2), interpolation=cv2.INTER_AREA)
+        x, y, _  = im.shape
+    return im
 
 def openFileNameDialog():
     try:
@@ -51,6 +60,39 @@ def smooth():
     cv2.imwrite("display.jpg", img2)
     ui.label_2.setPixmap(QPixmap("display.jpg"))
 
+def otsu():
+    try:
+        img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, img2  = cv2.threshold(img2,0,255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    except Exception:
+        return
+    cv2.imwrite("display.jpg", img2)
+    ui.label_2.setPixmap(QPixmap("display.jpg"))
+
+def meanThresh():
+    try:
+        img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img2 = cv2.adaptiveThreshold(img2, 255, cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY, 199, 5)
+    except Exception:
+        return
+    cv2.imwrite("display.jpg", img2)
+    ui.label_2.setPixmap(QPixmap("display.jpg"))
+
+def sobel():
+    try:
+        img2 = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+    except Exception:
+        return
+    cv2.imwrite("display.jpg", img2)
+    ui.label_2.setPixmap(QPixmap("display.jpg"))
+
+def laplacian():
+    try:
+        img2 = cv2.Laplacian(img,cv2.CV_64F)
+    except Exception:
+        return
+    cv2.imwrite("display.jpg", img2)
+    ui.label_2.setPixmap(QPixmap("display.jpg"))
 
 def buttonPressed():
     if ui.comboBox.currentText() == "Umbralización":
@@ -65,6 +107,14 @@ def buttonPressed():
         LTP()
     if ui.comboBox.currentText() == "Detección de iris":
         irisDetection()
+    if ui.comboBox.currentText() == "Umbralización otsu":
+        otsu()
+    if ui.comboBox.currentText() == "Umbralización por media regional":
+        meanThresh()
+    if ui.comboBox.currentText() == "Sobel":
+        sobel()
+    if ui.comboBox.currentText() == "Laplacian":
+        laplacian()
 
 
 def updateParams():
@@ -78,6 +128,8 @@ def openFile():
     ui.label.setPixmap(QPixmap(filename))
     global img
     img = cv2.imread(filename)
+    height, width, _ = img.shape
+    ui.label_3.setText("image size"+ str(height)+"x"+str(width))
 
 
 def saveFile():
